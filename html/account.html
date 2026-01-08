@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account | Bi'iji Bread Store</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation (Same as index.html) -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-bread-slice"></i>
+                <span>Bi'iji Bread Store</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="bookings.html"><i class="fas fa-shopping-bag"></i> Order</a></li>
+                <li><a href="checkout.html"><i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span></a></li>
+                <li><a href="account.html" class="active"><i class="fas fa-user"></i> Account</a></li>
+            </ul>
+            
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login/Signup Form -->
+    <div class="form-container" id="auth-container">
+        <div class="form-tabs">
+            <button class="tab-btn active" data-tab="login">Log In</button>
+            <button class="tab-btn" data-tab="signup">Sign Up</button>
+        </div>
+        
+        <!-- Login Form -->
+        <form id="login-form" class="auth-form active">
+            <div class="form-group">
+                <label for="login-email">Email Address</label>
+                <input type="email" id="login-email" class="form-control" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+            </div>
+            
+            <div class="form-options">
+                <label>
+                    <input type="checkbox" id="remember-me"> Remember me
+                </label>
+                <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block">Log In</button>
+        </form>
+        
+        <!-- Signup Form -->
+        <form id="signup-form" class="auth-form">
+            <div class="form-group">
+                <label for="signup-name">Full Name</label>
+                <input type="text" id="signup-name" class="form-control" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="signup-email">Email Address</label>
+                <input type="email" id="signup-email" class="form-control" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" class="form-control" placeholder="Create a password" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="signup-confirm">Confirm Password</label>
+                <input type="password" id="signup-confirm" class="form-control" placeholder="Confirm your password" required>
+            </div>
+            
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="terms" required>
+                    I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                </label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Bi'iji Bread Store</h3>
+                    <p>Fresh bread delivered to your door since 2010</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="bookings.html">Order Bread</a></li>
+                        <li><a href="account.html">My Account</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: hello@breadstore.com</p>
+                    <p>Phone: (123) 456-7890</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bi'iji Bread Store. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

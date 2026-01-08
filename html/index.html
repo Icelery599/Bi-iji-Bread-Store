@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Freshly baked bread delivered daily. Artisan bread store with premium quality ingredients.">
+    <title>Bi'iji Bread Store</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css\responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-bread-slice"></i>
+                <span>Bi'iji Bread Store</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="bookings.html"><i class="fas fa-shopping-bag"></i> Order</a></li>
+                <li><a href="checkout.html"><i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span></a></li>
+                <li><a href="account.html"><i class="fas fa-user"></i> Account</a></li>
+            </ul>
+            
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Freshly Baked, Everyday</h1>
+                <p>Artisan bread made with love and the finest ingredients</p>
+                <div class="hero-buttons">
+                    <a href="bookings.html" class="btn btn-primary">Order Now</a>
+                    <a href="#best-sellers" class="btn btn-secondary">View Best Sellers</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Bread Gallery -->
+        <section class="section gallery-section">
+            <h2 class="section-title">Our Bread Collection</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <div class="gallery-img"><img src="images/whole-wheat.jpg" alt="Whole Wheat"></div>
+                    <h3>Whole Wheat</h3>
+                    <p>Nutritious and fiber-rich</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img"><img src="images/sourdough.jpg" alt="Sourdough"></div>
+                    <h3>Sourdough</h3>
+                    <p>Tangy and chewy artisan bread</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img"><img src="images/Banana-bread.jpg" alt="Banana Bread"></div>
+                    <h3>Banana Bread</h3>
+                    <p>Sweet and moist homemade</p>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img"><img src="images/Rye Bread Recipe.jpg" alt="Rye Bread"></div>
+                    <h3>Rye Bread</h3>
+                    <p>Dense and flavorful</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bread Making Process -->
+        <section class="section process-section">
+            <h2 class="section-title">Our Baking Process</h2>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-icon">
+                        <i class="fas fa-mortar-pestle"></i>
+                    </div>
+                    <h3>1. Mixing</h3>
+                    <p>We carefully measure and mix premium ingredients</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-icon">
+                        <i class="fas fa-hand-rock"></i>
+                    </div>
+                    <h3>2. Kneading</h3>
+                    <p>Hand-kneaded to perfect consistency</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-icon">
+                        <i class="fas fa-hourglass-half"></i>
+                    </div>
+                    <h3>3. Fermentation</h3>
+                    <p>Slow fermentation for better flavor</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-icon">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3>4. Baking</h3>
+                    <p>Stone oven baked at perfect temperature</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Best Sellers -->
+        <section class="section" id="best-sellers">
+            <h2 class="section-title">Best Sellers</h2>
+            <div class="products-grid">
+                <!-- Products will be loaded from JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Bi'iji Bread Store</h3>
+                    <p>Fresh bread delivered to your door since 2010</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Subscribe to Newsletter</h3>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Your email address">
+                        <button class="btn btn-primary">Subscribe</button>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bi'iji Bread Store. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+</body>
+</html>

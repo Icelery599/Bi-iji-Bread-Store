@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Bread | Bi'iji Bread Store</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-bread-slice"></i>
+                <span>Bi'iji Bread Store</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="bookings.html" class="active"><i class="fas fa-shopping-bag"></i> Order</a></li>
+                <li><a href="checkout.html"><i class="fas fa-shopping-cart"></i> <span id="cart-count">0</span></a></li>
+                <li><a href="account.html"><i class="fas fa-user"></i> Account</a></li>
+            </ul>
+            
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Order Hero -->
+    <header class="hero" style="height: 50vh; background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1534620808146-d33bb39128b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Fresh Bread Menu</h1>
+                <p>Select from our daily fresh baked selection</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Category Filters -->
+    <section class="section" style="background-color: var(--white);">
+        <div class="container">
+            <div class="category-filters">
+                <button class="filter-btn active" data-filter="all">All Breads</button>
+                <button class="filter-btn" data-filter="Sourdough">Sourdough</button>
+                <button class="filter-btn" data-filter="Whole Wheat">Whole Wheat</button>
+                <button class="filter-btn" data-filter="White Bread">White Bread</button>
+                <button class="filter-btn" data-filter="Specialty">Specialty</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <main class="container">
+        <section class="section">
+            <div class="products-grid" id="products-container">
+                <!-- Products loaded from JavaScript -->
+            </div>
+        </section>
+
+        <!-- Order Info -->
+        <section class="section order-info">
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fas fa-shipping-fast"></i>
+                    <h3>Free Delivery</h3>
+                    <p>Free delivery on orders over $20</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Fresh Daily</h3>
+                    <p>Baked fresh every morning</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Organic Ingredients</h3>
+                    <p>100% organic and natural</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-undo"></i>
+                    <h3>Easy Returns</h3>
+                    <p>100% satisfaction guarantee</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Bi'iji Bread Store</h3>
+                    <p>Fresh bread delivered to your door since 2010</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Order Info</h3>
+                    <p>Delivery: 8AM - 8PM Daily</p>
+                    <p>Phone: (123) 456-7890</p>
+                    <p>Email: orders@breadstore.com</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bi'iji Bread Store. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Filter products by category
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const productsContainer = document.getElementById('products-container');
+            
+            // Display all products initially
+            displayFilteredProducts('all');
+            
+            // Add filter event listeners
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update active button
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Filter products
+                    const filter = btn.dataset.filter;
+                    displayFilteredProducts(filter);
+                });
+            });
+            
+            function displayFilteredProducts(filter) {
+                const filteredProducts = filter === 'all' 
+                    ? products 
+                    : products.filter(product => product.category === filter);
+                
+                productsContainer.innerHTML = '';
+                
+                filteredProducts.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+                    productCard.innerHTML = `
+                        <div class="product-img" style="background-color: ${getProductColor(product.category)};">
+                            <img src="images/${product.image}.jpg" alt="${product.name}">
+                            ${product.bestseller ? '<span class="bestseller-badge">Bestseller</span>' : ''}
+                        </div>
+                        <div class="product-info">
+                            <h3>${product.name} </h3>
+                            <p class="product-description">${product.description}</p>
+                            <div class="product-meta">
+                                <span class="category">${product.category}</span>
+                                <span class="product-price">$${product.price.toFixed(2)}</span>
+                            </div>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn minus" data-id="${product.id}">-</button>
+                                <input type="number" class="quantity-input" value="1" min="1" max="10" data-id="${product.id}">
+                                <button class="quantity-btn plus" data-id="${product.id}">+</button>
+                            </div>
+                            <button class="add-to-cart" data-id="${product.id}">Add to Cart</button>
+                        </div>
+                    `;
+                    productsContainer.appendChild(productCard);
+                });
+                
+                // Reattach event listeners
+                document.querySelectorAll('.quantity-btn').forEach(btn => {
+                    btn.addEventListener('click', handleQuantityChange);
+                });
+                
+                document.querySelectorAll('.quantity-input').forEach(input => {
+                    input.addEventListener('change', handleQuantityInput);
+                });
+                
+                document.querySelectorAll('.add-to-cart').forEach(btn => {
+                    btn.addEventListener('click', addToCart);
+                });
+            }
+            
+            function getProductColor(category) {
+                const colors = {
+                    'Sourdough': '#D2691E',
+                    'Whole Wheat': '#F5DEB3',
+                    'White Bread': '#FFF8DC',
+                    'Specialty': '#FFD700'
+                };
+                return colors[category] || '#F8B400';
+            }
+        });
+    </script>
+    
+    <style>
+        .category-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 20px 0;
+            width: 800px;
+            max-width: 100%;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+        
+        .filter-btn {
+            padding: 10px 25px;
+            background: var(--light);
+            border: 2px solid transparent;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .filter-btn.active {
+            background: var(--primary);
+            color: var(--dark);
+            border-color: var(--primary);
+        }
+        
+        .filter-btn:hover:not(.active) {
+            border-color: var(--primary);
+        }
+        
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+        }
+        
+        .category {
+            background: var(--accent);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .order-info {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            margin-top: 40px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .info-card {
+            text-align: center;
+            padding: 30px 20px;
+            background: var(--light);
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+        
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        .info-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+    </style>
+</body>
+</html>
