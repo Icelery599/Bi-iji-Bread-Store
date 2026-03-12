@@ -154,13 +154,18 @@ class Auth {
     showDashboard() {
         const authContainer = document.getElementById('auth-container');
         if (!authContainer) return;
+
+        const accountRecord = this.users.find(u => u.email === this.currentUser.email);
+        const memberSince = accountRecord?.createdAt
+            ? new Date(accountRecord.createdAt).toLocaleDateString()
+            : new Date().toLocaleDateString();
         
         authContainer.innerHTML = `
             <div class="dashboard">
                 <h2>Welcome, ${this.currentUser.name}!</h2>
                 <div class="user-info">
                     <p><strong>Email:</strong> ${this.currentUser.email}</p>
-                    <p><strong>Member since:</strong> ${new Date().toLocaleDateString()}</p>
+                    <p><strong>Member since:</strong> ${memberSince}</p>
                 </div>
                 <div class="dashboard-actions">
                     <button class="btn btn-secondary" id="view-orders">View My Orders</button>
@@ -169,10 +174,154 @@ class Auth {
                 </div>
             </div>
         `;
+
+        document.getElementById('view-orders').addEventListener('click', () => {
+            this.showOrders();
+        });
+
+        document.getElementById('edit-profile').addEventListener('click', () => {
+            this.showEditProfile();
+        });
         
         document.getElementById('logout-btn').addEventListener('click', () => {
             this.logout();
         });
+    }
+
+    getUserOrders() {
+        if (!this.currentUser) return [];
+
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];
+        return orders.filter(order => order.userEmail === this.currentUser.email);
+    }
+
+    showOrders() {
+        const authContainer = document.getElementById('auth-container');
+        if (!authContainer) return;
+
+        const orders = this.getUserOrders();
+        const orderCards = orders.length
+            ? orders.map(order => {
+                const itemList = order.items
+                    .map(item => `<li>${item.quantity}× ${item.name} - $${(item.price * item.quantity).toFixed(2)}</li>`)
+                    .join('');
+
+                return `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <h3>Order #${order.id}</h3>
+                            <span>${new Date(order.createdAt).toLocaleString()}</span>
+                        </div>
+                        <ul class="order-items">${itemList}</ul>
+                        <p><strong>Payment:</strong> ${order.paymentMethod}</p>
+                        <p><strong>Total:</strong> $${order.total.toFixed(2)}</p>
+                    </div>
+                `;
+            }).join('')
+            : '<p class="empty-orders">You have not placed any orders yet.</p>';
+
+        authContainer.innerHTML = `
+            <div class="dashboard">
+                <h2>My Orders</h2>
+                <div class="orders-list">${orderCards}</div>
+                <button class="btn btn-secondary" id="back-dashboard">Back to Dashboard</button>
+            </div>
+        `;
+
+        document.getElementById('back-dashboard').addEventListener('click', () => {
+            this.showDashboard();
+        });
+    }
+
+    showEditProfile() {
+        const authContainer = document.getElementById('auth-container');
+        if (!authContainer) return;
+
+        const accountRecord = this.users.find(u => u.email === this.currentUser.email);
+        const currentName = accountRecord?.name || this.currentUser.name;
+
+        authContainer.innerHTML = `
+            <div class="dashboard">
+                <h2>Edit Profile</h2>
+                <form id="edit-profile-form" class="auth-form active" style="display:block; text-align:left;">
+                    <div class="form-group">
+                        <label for="edit-name">Full Name</label>
+                        <input type="text" id="edit-name" class="form-control" value="${currentName}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-email">Email Address</label>
+                        <input type="email" id="edit-email" class="form-control" value="${this.currentUser.email}" required>
+                    </div>
+                    <div class="dashboard-actions">
+                        <button type="submit" class="btn btn-primary">Save Profile</button>
+                        <button type="button" class="btn btn-secondary" id="cancel-edit">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        `;
+
+        document.getElementById('edit-profile-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.saveProfile();
+        });
+
+        document.getElementById('cancel-edit').addEventListener('click', () => {
+            this.showDashboard();
+        });
+    }
+
+    saveProfile() {
+        const newName = document.getElementById('edit-name').value.trim();
+        const newEmail = document.getElementById('edit-email').value.trim();
+
+        if (!newName || !newEmail) {
+            this.showMessage('Please complete all profile fields.', 'error');
+            return;
+        }
+
+        const conflictingUser = this.users.find(
+            u => u.email === newEmail && u.email !== this.currentUser.email
+        );
+
+        if (conflictingUser) {
+            this.showMessage('That email is already in use by another account.', 'error');
+            return;
+        }
+
+        this.users = this.users.map(user => {
+            if (user.email === this.currentUser.email) {
+                return {
+                    ...user,
+                    name: newName,
+                    email: newEmail
+                };
+            }
+            return user;
+        });
+
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];
+        const updatedOrders = orders.map(order => {
+            if (order.userEmail === this.currentUser.email) {
+                return {
+                    ...order,
+                    userEmail: newEmail,
+                    userName: newName
+                };
+            }
+            return order;
+        });
+
+        this.currentUser = {
+            name: newName,
+            email: newEmail
+        };
+
+        localStorage.setItem('users', JSON.stringify(this.users));
+        localStorage.setItem('orders', JSON.stringify(updatedOrders));
+        localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+
+        this.showDashboard();
+        this.showMessage('Profile updated successfully!', 'success');
     }
     
     showForgotPassword() {
@@ -337,6 +486,37 @@ document.addEventListener('DOMContentLoaded', () => {
         
         .btn-logout:hover {
             background-color: #c82333;
+        }
+
+        .orders-list {
+            margin: 25px 0;
+            text-align: left;
+            display: grid;
+            gap: 15px;
+        }
+
+        .order-card {
+            border: 1px solid #e7e7e7;
+            border-radius: var(--radius);
+            padding: 15px;
+            background: #fff;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .order-items {
+            margin: 0 0 10px 18px;
+        }
+
+        .empty-orders {
+            text-align: center;
+            color: var(--gray);
         }
     `;
     document.head.appendChild(style);
