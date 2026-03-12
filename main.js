@@ -98,7 +98,7 @@ function getProductImagePath(imageKey) {
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 // Mobile Menu Toggle
-mobileMenuBtn.addEventListener('click', () => {
+mobileMenuBtn.addEventListener('click', (e) => {
     navMenu.classList.toggle('active');
     mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
     mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
