@@ -104,6 +104,25 @@ class Cart {
             alert('Please select a payment method');
             return;
         }
+
+        const subtotal = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const tax = subtotal * 0.08;
+        const total = subtotal + tax;
+        const orderId = Math.random().toString(36).substr(2, 9).toUpperCase();
+
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];
+        orders.unshift({
+            id: orderId,
+            userEmail: this.currentUser.email,
+            userName: this.currentUser.name,
+            items: this.items,
+            subtotal,
+            tax,
+            total,
+            paymentMethod,
+            createdAt: new Date().toISOString()
+        });
+        localStorage.setItem('orders', JSON.stringify(orders));
         
         // Show confirmation
         const confirmation = document.createElement('div');
@@ -112,7 +131,7 @@ class Cart {
             <div class="confirmation-content">
                 <h2>Order Confirmed!</h2>
                 <p>Thank you for your order.</p>
-                <p>Order #: ${Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
+                <p>Order #: ${orderId}</p>
                 <p>Payment Method: ${paymentMethod}</p>
                 <p>We'll notify you when your order is ready.</p>
                 <button class="btn btn-primary" id="close-confirmation">Continue Shopping</button>

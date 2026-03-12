@@ -80,6 +80,20 @@ const products = [
     }
 ];
 
+const productImageMap = {
+    sourdough: 'Sourdough.jpg',
+    wheat: 'wheat.jpg',
+    banana: 'banana.jpg',
+    baguette: 'baguette.jpg',
+    cinnamon: 'cinnamon.jpg',
+    multigrain: 'multigrain.jpg'
+};
+
+function getProductImagePath(imageKey) {
+    const mappedImage = productImageMap[imageKey] || `${imageKey}.jpg`;
+    return `images/${mappedImage}`;
+}
+
 // Initialize Cart
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -114,7 +128,7 @@ function displayProducts(filter = 'all') {
         productCard.className = 'product-card';
         productCard.innerHTML = `
             <div class="product-img">
-                <img src="images/${product.image}.jpg" alt="${product.name}">
+                <img src="${getProductImagePath(product.image)}" alt="${product.name}">
                 ${product.bestseller ? '<span class="bestseller-badge">Bestseller</span>' : ''}
             </div>
             <div class="product-info">

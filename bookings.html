@@ -157,7 +157,7 @@
                     productCard.className = 'product-card';
                     productCard.innerHTML = `
                         <div class="product-img" style="background-color: ${getProductColor(product.category)};">
-                            <img src="images/${product.image}.jpg" alt="${product.name}">
+                            <img src="${getProductImagePath(product.image)}" alt="${product.name}">
                             ${product.bestseller ? '<span class="bestseller-badge">Bestseller</span>' : ''}
                         </div>
                         <div class="product-info">
