@@ -1,15 +1,34 @@
 // Cart functionality
 class Cart {
     constructor() {
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
         this.items = JSON.parse(localStorage.getItem('cart')) || [];
         this.loadCart();
     }
     
     loadCart() {
         if (!document.querySelector('.cart-items')) return;
+
+        if (!this.currentUser) {
+            this.showAuthRequiredState();
+            return;
+        }
         
         this.displayCartItems();
         this.updateTotals();
+    }
+
+    showAuthRequiredState() {
+        const checkoutContainer = document.querySelector('.checkout-container');
+        if (!checkoutContainer) return;
+
+        checkoutContainer.innerHTML = `
+            <div class="form-container" style="margin: 40px auto; max-width: 700px; text-align: center;">
+                <h2>Login Required</h2>
+                <p style="margin: 15px 0 25px;">Please create an account or log in before completing your purchase.</p>
+                <a class="btn btn-primary" href="account.html">Go to Login / Registration</a>
+            </div>
+        `;
     }
     
     displayCartItems() {
@@ -71,6 +90,12 @@ class Cart {
     }
     
     checkout() {
+        if (!this.currentUser) {
+            alert('Please log in or register before completing your purchase.');
+            window.location.href = 'account.html';
+            return;
+        }
+
         // In a real application, this would process payment
         // For now, just clear the cart and show confirmation
         const paymentMethod = document.querySelector('.payment-option.active')?.dataset.method;
