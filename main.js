@@ -97,21 +97,48 @@ function getProductImagePath(imageKey) {
 // Initialize Cart
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-// Mobile Menu Toggle
-mobileMenuBtn.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
-    mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
-});
+function closeMobileMenu() {
+    if (!mobileMenuBtn || !navMenu) return;
 
-// Close mobile menu when clicking outside
-document.addEventListener('click', (e) => {
-    if (!navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-        navMenu.classList.remove('active');
-        mobileMenuBtn.querySelector('i').classList.remove('fa-times');
-        mobileMenuBtn.querySelector('i').classList.add('fa-bars');
+    navMenu.classList.remove('active');
+    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+
+    const menuIcon = mobileMenuBtn.querySelector('i');
+    if (menuIcon) {
+        menuIcon.classList.remove('fa-times');
+        menuIcon.classList.add('fa-bars');
     }
-});
+}
+
+// Mobile Menu Toggle
+if (mobileMenuBtn && navMenu) {
+    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+
+    mobileMenuBtn.addEventListener('click', () => {
+        const isOpen = navMenu.classList.toggle('active');
+        mobileMenuBtn.setAttribute('aria-expanded', String(isOpen));
+
+        const menuIcon = mobileMenuBtn.querySelector('i');
+        if (menuIcon) {
+            menuIcon.classList.toggle('fa-bars', !isOpen);
+            menuIcon.classList.toggle('fa-times', isOpen);
+        }
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+            closeMobileMenu();
+        }
+    });
+
+    // Close menu after selecting a navigation link
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            closeMobileMenu();
+        });
+    });
+}
 
 // Display Products
 function displayProducts(filter = 'all') {
