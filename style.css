@@ -165,6 +165,9 @@ h3 {
     display: none;
     font-size: 1.5rem;
     cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--secondary);
 }
 
 /* Hero Section */
