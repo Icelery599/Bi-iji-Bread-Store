@@ -303,6 +303,7 @@ h3 {
     overflow: hidden;
     box-shadow: var(--shadow);
     transition: var(--transition);
+    max-width: 300px;
 }
 
 .product-card:hover {
