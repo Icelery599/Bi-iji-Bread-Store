@@ -4,6 +4,24 @@ const navMenu = document.querySelector('.nav-menu');
 const productsGrid = document.querySelector('.products-grid');
 const cartCount = document.getElementById('cart-count');
 
+function getCurrentUser() {
+    return JSON.parse(localStorage.getItem('currentUser'));
+}
+
+function requireAuth(actionText = 'continue') {
+    if (getCurrentUser()) {
+        return true;
+    }
+
+    showNotification(`Please log in or sign up to ${actionText}.`);
+
+    setTimeout(() => {
+        window.location.href = 'account.html';
+    }, 1200);
+
+    return false;
+}
+
 // Sample Products Data
 const products = [
     {
@@ -151,6 +169,10 @@ function handleQuantityInput(e) {
 
 // Add to Cart Function
 function addToCart(e) {
+    if (!requireAuth('add items to your cart')) {
+        return;
+    }
+
     const productId = parseInt(e.target.dataset.id);
     const product = products.find(p => p.id === productId);
     const quantityInput = e.target.closest('.product-info').querySelector('.quantity-input');
